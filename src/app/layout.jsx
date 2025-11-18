@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import Header from '@/components/header';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getCookie } from '@/lib/cookies';
 
 
 const geistSans = localFont({
@@ -25,7 +24,8 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const cookieStore = cookies();
-  const session = await getCookie('session');
+  const sessionCookie = cookieStore.get('session');
+  const session = sessionCookie ? JSON.parse(sessionCookie.value) : null;
   const path = cookieStore.get('next-url')?.value || '/';
 
   if ((path.startsWith('/dashboard') || path.startsWith('/acerca')) && !session) {
