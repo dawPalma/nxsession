@@ -1,29 +1,29 @@
 'use server'
 import { redirect } from "next/navigation";
 import { deleteCookie, setCookie } from "@/lib/cookies";
+import fs from 'fs/promises';
+import path from 'path';
 
-const usuarios = [
-  { nombre: 'pepe', key: 'pepe' },
-  { nombre: 'ana', key: 'ana' },
-]
+const usersFilePath = path.join(process.cwd(), 'src', 'lib', 'users.json');
+const users = JSON.parse(await fs.readFile(usersFilePath, 'utf8'));
 
 export async function login(formData) {
   const LOGIN_URL = '/'
 
   // Obtener usuario datos del formulario
-  const name = formData.get('name')
   const email = formData.get('email')
-  const key = formData.get('key')
+  const password = formData.get('password')
   const callbackUrl = formData.get('callbackUrl') || LOGIN_URL
 
   // Comprobar si credenciales son válidas
-  // const authenticated = true  // suponemos que son válidas
-  const encontrado = usuarios.find(usuario => name == usuario.nombre && key == usuario.key)
+  const foundUser = users.find(user => email === user.email && password === user.password);
 
-  if (!encontrado) return
+  if (!foundUser) {
+    return;
+  }
 
   // Si hay autenticación correcta, creamos cookie de sesión
-  await setCookie('session', { name, email })
+  await setCookie('session', { name: foundUser.name, email: foundUser.email })
 
   redirect(callbackUrl);
 }
