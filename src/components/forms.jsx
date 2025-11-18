@@ -10,7 +10,7 @@ export function Login({ action, callbackUrl }) {
                 className="p-2 rounded-md ring-1 ring-slate-300 hover:ring-blue-300 focus:outline-none" />
             <input name="email" placeholder="Email"
                 className="p-2 rounded-md ring-1 ring-slate-300 hover:ring-blue-300 focus:outline-none" />
-            <input name="key" placeholder="Contraseña" type='password'
+            <input name="password" placeholder="Contraseña" type='password'
                 className="p-2 rounded-md ring-1 ring-slate-300 hover:ring-blue-300 focus:outline-none" />
             <button type="submit"
                 className="px-4 py-2 bg-blue-100 hover:bg-blue-200 ring-1 ring-slate-300 hover:ring-blue-300 rounded-lg text-center">
