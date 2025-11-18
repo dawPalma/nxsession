@@ -1,7 +1,7 @@
 import '@/app/globals.css'
 import localFont from "next/font/local";
 import Header from '@/components/header';
-import { cookies } from 'next/headers';
+import { headers } from 'next/headers'; // Changed from cookies to headers
 import { redirect } from 'next/navigation';
 
 
@@ -23,12 +23,29 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const cookieStore = cookies();
-  const sessionCookie = cookieStore.get('session');
-  const session = sessionCookie ? JSON.parse(sessionCookie.value) : null;
-  const path = cookieStore.get('next-url')?.value || '/';
+  const headersList = headers();
+  const cookieHeader = headersList.get('cookie');
 
-  if ((path.startsWith('/dashboard') || path.startsWith('/acerca')) && !session) {
+  let session = null;
+  let nextUrlPath = '/';
+
+  if (cookieHeader) {
+    const cookiesArray = cookieHeader.split(';');
+    for (const cookie of cookiesArray) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === 'session') {
+        try {
+          session = JSON.parse(decodeURIComponent(value));
+        } catch (e) {
+          console.error("Error parsing session cookie:", e);
+        }
+      } else if (name === 'next-url') {
+        nextUrlPath = decodeURIComponent(value);
+      }
+    }
+  }
+
+  if ((nextUrlPath.startsWith('/dashboard') || nextUrlPath.startsWith('/acerca')) && !session) {
     redirect('/');
   }
 
