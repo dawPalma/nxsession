@@ -1,5 +1,6 @@
 'use server'
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { deleteCookie, setCookie } from "@/lib/cookies";
 import fs from 'fs/promises';
 import path from 'path';
@@ -25,6 +26,7 @@ export async function login(formData) {
   // Si hay autenticación correcta, creamos cookie de sesión
   await setCookie('session', { name: foundUser.name, email: foundUser.email })
 
+  revalidatePath(callbackUrl);
   redirect(callbackUrl);
 }
 

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-const EXPIRE_TIME = 10 * 1000 // ms
+const EXPIRE_TIME = 3600 * 1000 // 1 hour
 
 
 export async function getCookie(name) {
@@ -8,7 +8,10 @@ export async function getCookie(name) {
   const session = cookieStore.get(name)?.value;
 
   if (!session) return null;
-  return await JSON.parse(session);
+  const parsedSession = await JSON.parse(session);
+  // Remove the expires field before returning the session
+  const { expires, ...userData } = parsedSession;
+  return userData;
 }
 
 
