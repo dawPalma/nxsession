@@ -4,14 +4,11 @@
 > [!NOTE]
 >
 > Aplicación actualizada a Next.js 16. 
->
-> En lugar del anterior archivo `middleware.js`, ahora tenemos **`proxy.js`**
-
 
 Para ejecutar la aplicación en local seguir los siguientes pasos:
 
 ```
-git  clone  https://github.com/jamj2000/nxsession
+git  clone  https://github.com/dawPalma/nxsession.git
 cd  nxsession
 npm  install
 npm  run  dev
@@ -21,8 +18,8 @@ Para iniciar sesión puedes usar las siguientes credenciales:
 
 |            | usuario1 | usuario2 |
 | ---------- | -------- | -------- |
-| Nombre     | **pepe** | **ana**  |
-| Contraseña | **pepe** | **ana**  |
+| Nombre     | **pepe** | **admin**  |
+| Contraseña | **pepe** | **adminpassword**  |
 
 
 
